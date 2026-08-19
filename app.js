@@ -22,10 +22,10 @@ const game = {
   paddleHeight: 18,
   ballSize: 12,
   brickRows: 5,
-  brickCols: 9,
-  brickWidth: 22,
-  brickHeight: 22,
-  brickGap: 6,
+  brickCols: 20,
+  brickWidth: 30,
+  brickHeight: 30,
+  brickGap: 8,
   score: 0,
   timeScale: 0.5,
 };
@@ -68,11 +68,11 @@ function clamp(value, min, max) {
 function createBricks() {
   bricks.length = 0;
   const topPadding = 52;
-  const leftPadding = 34;
+  const leftPadding = 18;
 
   for (let row = 0; row < game.brickRows; row += 1) {
     for (let col = 0; col < game.brickCols; col += 1) {
-      const contributionValue = (row + col + (row * 3)) % 5;
+      const contributionValue = (row + col + (row * 2)) % 5;
       bricks.push({
         x: leftPadding + col * (game.brickWidth + game.brickGap),
         y: topPadding + row * (game.brickHeight + game.brickGap),
@@ -306,19 +306,19 @@ function drawAsciiPixel(x, y, size, color) {
 }
 
 function drawBrick(brick) {
-  const shades = ['#0e2f1a', '#1d4d2d', '#2f7a44', '#45a55d'];
+  const shades = ['#0d2d1d', '#173f2b', '#2f7a44', '#42a55a', '#7ae496'];
   const tone = shades[brick.shade % shades.length];
 
   for (let py = 0; py < brick.height; py += 4) {
     for (let px = 0; px < brick.width; px += 4) {
-      const shouldFill = ((px + py) % 8) < 6 || (brick.shade > 0 && ((brick.x + py + px) % 7) === 0);
+      const shouldFill = ((px + py) % 8) < 7 || (brick.shade > 0 && ((brick.x + brick.y + px + py) % 9) === 0);
       if (shouldFill) {
         drawAsciiPixel(brick.x + px, brick.y + py, 4, tone);
       }
     }
   }
 
-  ctx.strokeStyle = 'rgba(214, 255, 219, 0.18)';
+  ctx.strokeStyle = 'rgba(214, 255, 219, 0.38)';
   ctx.lineWidth = 1;
   ctx.strokeRect(brick.x + 0.5, brick.y + 0.5, brick.width - 1, brick.height - 1);
 }
