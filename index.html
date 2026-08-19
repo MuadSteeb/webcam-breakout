@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hand Pong</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Computer Vision Demo</p>
+          <h1>Breakout Vision</h1>
+        </div>
+        <div class="button-group">
+          <button id="pauseButton" class="secondary-btn" disabled>Pause</button>
+          <button id="startButton" class="primary-btn">Start webcam</button>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <section class="game-panel">
+          <div class="game-stage">
+            <video id="webcam" autoplay playsinline muted></video>
+            <canvas id="gameCanvas" width="900" height="500" aria-label="Breakout game"></canvas>
+          </div>
+          <div class="hud">
+            <div class="score-box single-score">
+              <span>Score</span>
+              <strong id="leftScore">0</strong>
+            </div>
+          </div>
+          <p id="statusMessage" class="status">Camera is off. Click “Start webcam” to begin, then hold yellow squares on either side of the frame to steer the paddle.</p>
+          <div class="crowd-controls">
+            <div class="crowd-simulator">
+              <h3>Crowd simulator</h3>
+              <div class="crowd-row">
+                <label for="leftCrowdSlider">Left</label>
+                <input id="leftCrowdSlider" type="range" min="10" max="300" value="120" />
+                <output id="leftCrowdValue">120</output>
+              </div>
+            </div>
+            <div class="crowd-simulator">
+              <h3>Crowd simulator</h3>
+              <div class="crowd-row">
+                <label for="rightCrowdSlider">Right</label>
+                <input id="rightCrowdSlider" type="range" min="10" max="300" value="120" />
+                <output id="rightCrowdValue">120</output>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
