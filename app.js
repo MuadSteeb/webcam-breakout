@@ -364,19 +364,10 @@ function drawGame() {
   ctx.fillStyle = '#d2ff6c';
   ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
-  ctx.save();
-  ctx.translate(ball.x, ball.y);
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(-28, -14, 56, 28);
-  ctx.strokeStyle = 'rgba(122, 228, 150, 0.8)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(-28, -14, 56, 28);
-  ctx.fillStyle = '#d2ff6c';
-  ctx.font = '700 16px "SFMono-Regular", Consolas, monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('DVD', 0, 1);
-  ctx.restore();
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+  ctx.fillStyle = '#f6fff8';
+  ctx.fill();
 }
 
 function detectYellowSide() {
