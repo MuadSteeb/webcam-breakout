@@ -68,7 +68,8 @@ function clamp(value, min, max) {
 function createBricks() {
   bricks.length = 0;
   const topPadding = 52;
-  const leftPadding = 18;
+  const totalBrickWidth = game.brickCols * game.brickWidth + (game.brickCols - 1) * game.brickGap;
+  const leftPadding = (game.width - totalBrickWidth) / 2;
 
   for (let row = 0; row < game.brickRows; row += 1) {
     for (let col = 0; col < game.brickCols; col += 1) {
