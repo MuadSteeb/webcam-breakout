@@ -23,9 +23,9 @@ const game = {
   ballSize: 12,
   brickRows: 5,
   brickCols: 9,
-  brickWidth: 78,
-  brickHeight: 24,
-  brickGap: 10,
+  brickWidth: 22,
+  brickHeight: 22,
+  brickGap: 6,
   score: 0,
   timeScale: 0.5,
 };
@@ -72,12 +72,14 @@ function createBricks() {
 
   for (let row = 0; row < game.brickRows; row += 1) {
     for (let col = 0; col < game.brickCols; col += 1) {
+      const contributionValue = (row + col + (row * 3)) % 5;
       bricks.push({
         x: leftPadding + col * (game.brickWidth + game.brickGap),
         y: topPadding + row * (game.brickHeight + game.brickGap),
         width: game.brickWidth,
         height: game.brickHeight,
         alive: true,
+        shade: contributionValue,
       });
     }
   }
@@ -298,18 +300,27 @@ function updateBall(deltaTime) {
   handleBrickCollisions();
 }
 
-function drawRoundedRect(x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-  ctx.closePath();
+function drawAsciiPixel(x, y, size, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, size, size);
+}
+
+function drawBrick(brick) {
+  const shades = ['#0e2f1a', '#1d4d2d', '#2f7a44', '#45a55d'];
+  const tone = shades[brick.shade % shades.length];
+
+  for (let py = 0; py < brick.height; py += 4) {
+    for (let px = 0; px < brick.width; px += 4) {
+      const shouldFill = ((px + py) % 8) < 6 || (brick.shade > 0 && ((brick.x + py + px) % 7) === 0);
+      if (shouldFill) {
+        drawAsciiPixel(brick.x + px, brick.y + py, 4, tone);
+      }
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(214, 255, 219, 0.18)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(brick.x + 0.5, brick.y + 0.5, brick.width - 1, brick.height - 1);
 }
 
 function drawCrowdBlocks() {
@@ -322,8 +333,16 @@ function drawCrowdBlocks() {
 
 function drawGame() {
   ctx.clearRect(0, 0, game.width, game.height);
-  ctx.fillStyle = '#0e1830';
+  ctx.fillStyle = '#0a120e';
   ctx.fillRect(0, 0, game.width, game.height);
+
+  ctx.fillStyle = 'rgba(122, 228, 150, 0.08)';
+  for (let x = 0; x < game.width; x += 20) {
+    ctx.fillRect(x, 0, 1, game.height);
+  }
+  for (let y = 0; y < game.height; y += 20) {
+    ctx.fillRect(0, y, game.width, 1);
+  }
 
   if (webcam && webcam.videoWidth && webcam.videoHeight) {
     ctx.save();
@@ -338,20 +357,15 @@ function drawGame() {
     if (!brick.alive) {
       continue;
     }
-
-    drawRoundedRect(brick.x, brick.y, brick.width, brick.height, 6);
-    const brickShade = 180 + ((brick.x + brick.y) % 3) * 15;
-    ctx.fillStyle = `rgb(${brickShade - 40}, ${brickShade + 40}, ${brickShade - 80})`;
-    ctx.fill();
+    drawBrick(brick);
   }
 
-  drawRoundedRect(paddle.x, paddle.y, paddle.width, paddle.height, 10);
-  ctx.fillStyle = '#7ee7ff';
-  ctx.fill();
+  ctx.fillStyle = '#d2ff6c';
+  ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = '#f6fff8';
   ctx.fill();
 }
 

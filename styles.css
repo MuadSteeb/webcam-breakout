@@ -1,14 +1,14 @@
 :root {
-  --bg: #0a1020;
-  --panel: rgba(19, 27, 42, 0.8);
-  --panel-border: rgba(160, 175, 255, 0.3);
-  --text: #edf4ff;
-  --muted: #aabed8;
-  --primary: #64e5ff;
-  --secondary: #7591ff;
-  --accent: #9af49c;
-  --danger: #ff7f83;
-  --shadow: rgba(7, 12, 26, 0.6);
+  --bg: #0b120d;
+  --panel: rgba(12, 19, 15, 0.9);
+  --panel-border: rgba(115, 201, 130, 0.45);
+  --text: #d9ffe3;
+  --muted: #9bc5a4;
+  --primary: #7ae496;
+  --secondary: #3d8f5c;
+  --accent: #d2ff6c;
+  --danger: #8be09d;
+  --shadow: rgba(6, 11, 8, 0.72);
 }
 
 * {
@@ -18,9 +18,18 @@
 html, body {
   margin: 0;
   min-height: 100%;
-  background: radial-gradient(circle at top, #16233e 0%, var(--bg) 52%);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    repeating-linear-gradient(
+      0deg,
+      rgba(122, 228, 150, 0.05),
+      rgba(122, 228, 150, 0.05) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    var(--bg);
   color: var(--text);
-  font-family: Inter, "Segoe UI", sans-serif;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 body {
@@ -29,6 +38,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 28px;
+  letter-spacing: 0.04em;
 }
 
 .page-shell {
@@ -41,20 +51,21 @@ body {
   align-items: center;
   gap: 1rem;
   margin-bottom: 18px;
+  text-transform: uppercase;
 }
 
 .eyebrow {
   margin: 0 0 8px;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
   color: var(--primary);
 }
 
 h1 {
   margin: 0;
-  letter-spacing: -0.04em;
-  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0.12em;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  text-shadow: 0 0 12px rgba(122, 228, 150, 0.35);
 }
 
 .button-group {
@@ -65,29 +76,32 @@ h1 {
 
 .primary-btn,
 .secondary-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 0.9rem 1.4rem;
+  border: 2px solid rgba(122, 228, 150, 0.8);
+  border-radius: 0;
+  padding: 0.9rem 1.2rem;
   font-weight: 700;
   cursor: pointer;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  font-family: inherit;
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #06121f;
-  box-shadow: 0 10px 30px rgba(100, 229, 255, 0.3);
+  background: #d2ff6c;
+  color: #0b120d;
+  box-shadow: 4px 4px 0 rgba(122, 228, 150, 0.7);
 }
 
 .secondary-btn {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(11, 18, 13, 0.8);
   color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .primary-btn:hover,
 .secondary-btn:hover {
-  transform: translateY(-1px);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(122, 228, 150, 0.7);
 }
 
 .primary-btn:disabled,
@@ -103,9 +117,9 @@ h1 {
 
 .game-panel {
   background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 18px;
-  box-shadow: 0 18px 40px var(--shadow);
+  border: 2px solid var(--panel-border);
+  border-radius: 0;
+  box-shadow: 0 0 0 4px rgba(122, 228, 150, 0.12), 0 18px 40px var(--shadow);
   overflow: hidden;
   position: relative;
   padding: 18px;
@@ -114,10 +128,11 @@ h1 {
 
 .game-stage {
   position: relative;
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
-  border: 1px solid rgba(176, 191, 255, 0.3);
-  background: linear-gradient(180deg, #10213f, #0d1830);
+  border: 2px solid rgba(122, 228, 150, 0.7);
+  background: #0a120e;
+  box-shadow: inset 0 0 18px rgba(122, 228, 150, 0.08);
 }
 
 #gameCanvas {
@@ -126,7 +141,8 @@ h1 {
   width: 100%;
   height: auto;
   display: block;
-  background: linear-gradient(180deg, #10213f, #0d1830);
+  background: #0a120e;
+  image-rendering: pixelated;
 }
 
 .hud {
@@ -142,28 +158,30 @@ h1 {
 
 .score-box {
   min-width: 120px;
-  background: rgba(9, 16, 29, 0.45);
-  border: 1px solid rgba(148, 180, 255, 0.24);
-  border-radius: 16px;
-  padding: 0.55rem 0.85rem;
+  background: rgba(11, 18, 13, 0.7);
+  border: 2px solid rgba(122, 228, 150, 0.8);
+  padding: 0.55rem 0.9rem;
   text-align: center;
+  box-shadow: 4px 4px 0 rgba(122, 228, 150, 0.4);
 }
 
 .single-score {
-  min-width: 150px;
+  min-width: 180px;
 }
 
 .score-box span {
   display: block;
   font-size: 0.7rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .score-box strong {
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
-  letter-spacing: -0.04em;
+  display: block;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .crowd-controls {
@@ -174,16 +192,16 @@ h1 {
 }
 
 .crowd-simulator {
-  background: rgba(8, 14, 24, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  background: rgba(7, 11, 9, 0.9);
+  border: 2px solid rgba(122, 228, 150, 0.55);
   padding: 12px 14px;
+  box-shadow: inset 0 0 0 2px rgba(122, 228, 150, 0.08);
 }
 
 .crowd-simulator h3 {
   margin: 0 0 10px;
-  font-size: 0.86rem;
-  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--primary);
 }
@@ -194,17 +212,19 @@ h1 {
   align-items: center;
   gap: 10px;
   color: var(--text);
+  font-size: 0.8rem;
+  text-transform: uppercase;
 }
 
 .crowd-row input[type="range"] {
   width: 100%;
-  accent-color: #f5d84a;
+  accent-color: #d2ff6c;
 }
 
 .crowd-row output {
   text-align: right;
   color: var(--muted);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 #webcam {
@@ -215,8 +235,8 @@ h1 {
   object-fit: cover;
   transform: scaleX(-1);
   display: block;
-  background: #111827;
-  opacity: 0.3;
+  background: #0d1711;
+  opacity: 0.28;
   z-index: 0;
   pointer-events: none;
 }
@@ -224,8 +244,10 @@ h1 {
 .status {
   margin: 0.9rem 0 0;
   color: var(--muted);
-  line-height: 1.5;
-  font-size: 0.95rem;
+  line-height: 1.7;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 @media (max-width: 860px) {
@@ -238,7 +260,7 @@ h1 {
     align-items: flex-start;
   }
 
-  .game-layout {
+  .crowd-controls {
     grid-template-columns: 1fr;
   }
 }
