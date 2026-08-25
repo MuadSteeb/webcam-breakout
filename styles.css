@@ -1,14 +1,16 @@
 :root {
-  --bg: #0b120d;
-  --panel: rgba(12, 19, 15, 0.9);
-  --panel-border: rgba(115, 201, 130, 0.45);
-  --text: #d9ffe3;
-  --muted: #9bc5a4;
-  --primary: #7ae496;
-  --secondary: #3d8f5c;
-  --accent: #d2ff6c;
-  --danger: #8be09d;
-  --shadow: rgba(6, 11, 8, 0.72);
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-elevated: #21262d;
+  --panel-muted: #0f1722;
+  --panel-border: #30363d;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --primary: #58a6ff;
+  --primary-strong: #1f6feb;
+  --success: #3fb950;
+  --accent: #39d353;
+  --shadow: rgba(1, 4, 9, 0.72);
 }
 
 * {
@@ -18,18 +20,9 @@
 html, body {
   margin: 0;
   min-height: 100%;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    repeating-linear-gradient(
-      0deg,
-      rgba(122, 228, 150, 0.05),
-      rgba(122, 228, 150, 0.05) 2px,
-      transparent 2px,
-      transparent 4px
-    ),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -38,7 +31,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 28px;
-  letter-spacing: 0.04em;
+  letter-spacing: normal;
 }
 
 .page-shell {
@@ -51,21 +44,23 @@ body {
   align-items: center;
   gap: 1rem;
   margin-bottom: 18px;
-  text-transform: uppercase;
 }
 
 .eyebrow {
   margin: 0 0 8px;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  color: var(--primary);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 h1 {
   margin: 0;
-  letter-spacing: 0.12em;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  text-shadow: 0 0 12px rgba(122, 228, 150, 0.35);
+  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 700;
+  color: var(--text);
+  text-shadow: none;
 }
 
 .button-group {
@@ -76,37 +71,39 @@ h1 {
 
 .primary-btn,
 .secondary-btn {
-  border: 2px solid rgba(122, 228, 150, 0.8);
-  border-radius: 0;
-  padding: 0.9rem 1.2rem;
-  font-weight: 700;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
   cursor: pointer;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   font-family: inherit;
+  font-size: 0.9rem;
 }
 
 .primary-btn {
-  background: #d2ff6c;
-  color: #0b120d;
-  box-shadow: 4px 4px 0 rgba(122, 228, 150, 0.7);
+  background: linear-gradient(180deg, #238636 0%, #196c2d 100%);
+  border-color: rgba(240, 246, 252, 0.08);
+  color: #f0f6fc;
+  box-shadow: none;
 }
 
 .secondary-btn {
-  background: rgba(11, 18, 13, 0.8);
+  background: var(--panel-elevated);
   color: var(--text);
 }
 
 .primary-btn:hover,
 .secondary-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 rgba(122, 228, 150, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.1);
 }
 
 .primary-btn:disabled,
 .secondary-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -117,9 +114,9 @@ h1 {
 
 .game-panel {
   background: var(--panel);
-  border: 2px solid var(--panel-border);
-  border-radius: 0;
-  box-shadow: 0 0 0 4px rgba(122, 228, 150, 0.12), 0 18px 40px var(--shadow);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.02), 0 18px 32px rgba(1, 4, 9, 0.4);
   overflow: hidden;
   position: relative;
   padding: 18px;
@@ -128,11 +125,11 @@ h1 {
 
 .game-stage {
   position: relative;
-  border-radius: 0;
+  border-radius: 10px;
   overflow: hidden;
-  border: 2px solid rgba(122, 228, 150, 0.7);
-  background: #0a120e;
-  box-shadow: inset 0 0 18px rgba(122, 228, 150, 0.08);
+  border: 1px solid var(--panel-border);
+  background: #0b1220;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 #gameCanvas {
@@ -141,8 +138,8 @@ h1 {
   width: 100%;
   height: auto;
   display: block;
-  background: #0a120e;
-  image-rendering: pixelated;
+  background: #0b1220;
+  image-rendering: auto;
 }
 
 .hud {
@@ -158,11 +155,12 @@ h1 {
 
 .score-box {
   min-width: 120px;
-  background: rgba(11, 18, 13, 0.7);
-  border: 2px solid rgba(122, 228, 150, 0.8);
+  background: rgba(13, 17, 23, 0.8);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
   padding: 0.55rem 0.9rem;
   text-align: center;
-  box-shadow: 4px 4px 0 rgba(122, 228, 150, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .single-score {
@@ -172,16 +170,16 @@ h1 {
 .score-box span {
   display: block;
   font-size: 0.7rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .score-box strong {
   display: block;
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  letter-spacing: -0.04em;
+  font-weight: 700;
 }
 
 .crowd-controls {
@@ -192,18 +190,18 @@ h1 {
 }
 
 .crowd-simulator {
-  background: rgba(7, 11, 9, 0.9);
-  border: 2px solid rgba(122, 228, 150, 0.55);
+  background: var(--panel-elevated);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
   padding: 12px 14px;
-  box-shadow: inset 0 0 0 2px rgba(122, 228, 150, 0.08);
 }
 
 .crowd-simulator h3 {
   margin: 0 0 10px;
-  font-size: 0.76rem;
-  letter-spacing: 0.2em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--primary);
+  color: var(--muted);
 }
 
 .crowd-row {
@@ -213,18 +211,17 @@ h1 {
   gap: 10px;
   color: var(--text);
   font-size: 0.8rem;
-  text-transform: uppercase;
 }
 
 .crowd-row input[type="range"] {
   width: 100%;
-  accent-color: #d2ff6c;
+  accent-color: var(--primary);
 }
 
 .crowd-row output {
   text-align: right;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 #webcam {
@@ -235,8 +232,8 @@ h1 {
   object-fit: cover;
   transform: scaleX(-1);
   display: block;
-  background: #0d1711;
-  opacity: 0.28;
+  background: #0d1117;
+  opacity: 0.25;
   z-index: 0;
   pointer-events: none;
 }
@@ -244,10 +241,10 @@ h1 {
 .status {
   margin: 0.9rem 0 0;
   color: var(--muted);
-  line-height: 1.7;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 @media (max-width: 860px) {
