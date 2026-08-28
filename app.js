@@ -24,9 +24,9 @@ let useAudiencePlaceholder = false;
 const game = {
   width: canvas.width,
   height: canvas.height,
-  paddleWidth: 140,
+  paddleWidth: 168,
   paddleHeight: 18,
-  ballSize: 12,
+  ballSize: 24,
   brickRows: 4,
   brickCols: 12,
   brickWidth: 56,
@@ -49,8 +49,8 @@ const ball = {
   x: game.width / 2,
   y: game.height - 58,
   radius: game.ballSize / 2,
-  speedX: 150,
-  speedY: -150,
+  speedX: 120,
+  speedY: -120,
 };
 
 const bricks = [];
@@ -197,8 +197,8 @@ function playTone(frequency, duration, type = 'sine', volume = 0.05) {
 function resetBall() {
   ball.x = paddle.x + paddle.width / 2;
   ball.y = paddle.y - ball.radius - 4;
-  ball.speedX = 150 * (Math.random() < 0.5 ? -1 : 1);
-  ball.speedY = -150;
+  ball.speedX = 120 * (Math.random() < 0.5 ? -1 : 1);
+  ball.speedY = -120;
   scoreLocked = false;
 }
 
