@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 const webcam = document.getElementById('webcam');
 const startButton = document.getElementById('startButton');
 const pauseButton = document.getElementById('pauseButton');
+const playAudienceButton = document.getElementById('playAudienceButton');
 const statusMessage = document.getElementById('statusMessage');
 const leftScoreEl = document.getElementById('leftScore');
 const leftCrowdSlider = document.getElementById('leftCrowdSlider');
@@ -14,6 +15,11 @@ const yellowProbe = document.createElement('canvas');
 const yellowProbeCtx = yellowProbe.getContext('2d');
 const crowdCanvas = document.createElement('canvas');
 const crowdCtx = crowdCanvas.getContext('2d');
+const audiencePlaceholder = new Image();
+audiencePlaceholder.src = './assets/audience-placeholder.png';
+audiencePlaceholder.crossOrigin = 'anonymous';
+
+let useAudiencePlaceholder = false;
 
 const game = {
   width: canvas.width,
@@ -345,10 +351,15 @@ function drawGame() {
     ctx.fillRect(0, y, game.width, 1);
   }
 
-  if (webcam && webcam.videoWidth && webcam.videoHeight) {
+  const activeSource = useAudiencePlaceholder ? audiencePlaceholder : webcam;
+  const hasActiveSource = useAudiencePlaceholder
+    ? audiencePlaceholder.complete && audiencePlaceholder.naturalWidth > 0
+    : webcam && webcam.videoWidth && webcam.videoHeight;
+
+  if (hasActiveSource) {
     ctx.save();
     ctx.globalAlpha = 0.3;
-    ctx.drawImage(webcam, 0, 0, game.width, game.height);
+    ctx.drawImage(activeSource, 0, 0, game.width, game.height);
     ctx.restore();
   }
 
@@ -371,14 +382,26 @@ function drawGame() {
 }
 
 function detectYellowSide() {
-  if (!webcam.videoWidth || !webcam.videoHeight) {
+  const activeSource = useAudiencePlaceholder ? audiencePlaceholder : webcam;
+  const hasActiveSource = useAudiencePlaceholder
+    ? audiencePlaceholder.complete && audiencePlaceholder.naturalWidth > 0
+    : webcam && webcam.videoWidth && webcam.videoHeight;
+
+  if (!hasActiveSource) {
     return;
   }
 
-  yellowProbe.width = webcam.videoWidth;
-  yellowProbe.height = webcam.videoHeight;
-  yellowProbeCtx.clearRect(0, 0, yellowProbe.width, yellowProbe.height);
-  yellowProbeCtx.drawImage(webcam, 0, 0, yellowProbe.width, yellowProbe.height);
+  if (useAudiencePlaceholder) {
+    yellowProbe.width = audiencePlaceholder.naturalWidth;
+    yellowProbe.height = audiencePlaceholder.naturalHeight;
+    yellowProbeCtx.clearRect(0, 0, yellowProbe.width, yellowProbe.height);
+    yellowProbeCtx.drawImage(audiencePlaceholder, 0, 0, yellowProbe.width, yellowProbe.height);
+  } else {
+    yellowProbe.width = webcam.videoWidth;
+    yellowProbe.height = webcam.videoHeight;
+    yellowProbeCtx.clearRect(0, 0, yellowProbe.width, yellowProbe.height);
+    yellowProbeCtx.drawImage(webcam, 0, 0, yellowProbe.width, yellowProbe.height);
+  }
 
   drawCrowdOverlay();
   yellowProbeCtx.drawImage(crowdCanvas, 0, 0, yellowProbe.width, yellowProbe.height);
@@ -455,6 +478,13 @@ function togglePause() {
 }
 
 async function startCamera() {
+  useAudiencePlaceholder = false;
+
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+  }
+
   if (!navigator.mediaDevices?.getUserMedia) {
     statusMessage.textContent = 'This browser does not support webcam access.';
     return;
@@ -465,6 +495,10 @@ async function startCamera() {
       video: { facingMode: 'user', width: 640, height: 480 },
       audio: false,
     });
+
+    if (webcam.srcObject) {
+      webcam.srcObject.getTracks().forEach((track) => track.stop());
+    }
 
     webcam.srcObject = stream;
     await webcam.play();
@@ -484,6 +518,30 @@ async function startCamera() {
   }
 }
 
+function startAudiencePlaceholder() {
+  useAudiencePlaceholder = true;
+
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+  }
+
+  if (webcam.srcObject) {
+    webcam.srcObject.getTracks().forEach((track) => track.stop());
+    webcam.srcObject = null;
+  }
+
+  ensureAudioContext();
+  statusMessage.textContent = 'Using audience placeholder image. Hold yellow blocks to the left or right to steer the paddle.';
+  startButton.textContent = 'Start webcam';
+  startButton.disabled = false;
+  pauseButton.disabled = false;
+  isRunning = true;
+  isPaused = false;
+  pauseButton.textContent = 'Pause';
+  animationFrameId = requestAnimationFrame(animate);
+}
+
 leftCrowdSlider.addEventListener('input', () => {
   crowd.left.value = Number(leftCrowdSlider.value);
   leftCrowdValue.textContent = leftCrowdSlider.value;
@@ -496,6 +554,7 @@ rightCrowdSlider.addEventListener('input', () => {
 
 startButton.addEventListener('click', startCamera);
 pauseButton.addEventListener('click', togglePause);
+playAudienceButton.addEventListener('click', startAudiencePlaceholder);
 createBricks();
 syncCrowd('left');
 syncCrowd('right');
