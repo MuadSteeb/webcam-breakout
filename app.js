@@ -348,14 +348,6 @@ function drawGame() {
   ctx.fillStyle = '#0a120e';
   ctx.fillRect(0, 0, game.width, game.height);
 
-  ctx.fillStyle = 'rgba(122, 228, 150, 0.08)';
-  for (let x = 0; x < game.width; x += 20) {
-    ctx.fillRect(x, 0, 1, game.height);
-  }
-  for (let y = 0; y < game.height; y += 20) {
-    ctx.fillRect(0, y, game.width, 1);
-  }
-
   const activeSource = useAudiencePlaceholder ? audiencePlaceholder : webcam;
   const hasActiveSource = useAudiencePlaceholder
     ? audiencePlaceholder.complete && audiencePlaceholder.naturalWidth > 0
