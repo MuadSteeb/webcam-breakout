@@ -120,7 +120,7 @@ function drawCrowdOverlay() {
   for (const sideName of ['left', 'right']) {
     const side = crowd[sideName];
     for (const block of side.blocks) {
-      crowdCtx.fillStyle = `rgba(249, 214, 53, ${block.alpha})`;
+      crowdCtx.fillStyle = `rgba(57, 211, 83, ${block.alpha})`;
       crowdCtx.fillRect(block.x, block.y, block.size, block.size);
     }
   }
@@ -418,8 +418,8 @@ function detectYellowSide() {
     const b = pixels[index + 2];
     const x = (index / 4) % yellowProbe.width;
 
-    const isYellow = r > 150 && g > 120 && b < 120 && r >= g && g >= b;
-    if (isYellow) {
+    const isGreen = g > 140 && r < 180 && b < 180 && g >= r && g >= b;
+    if (isGreen) {
       if (x < yellowProbe.width / 2) {
         leftYellow += 1;
       } else {
@@ -476,7 +476,7 @@ function togglePause() {
   pauseButton.textContent = isPaused ? 'Resume' : 'Pause';
   statusMessage.textContent = isPaused
     ? 'Game paused. Resume to continue playing.'
-    : 'Hold yellow objects to the left or right to pull the paddle.';
+    : 'Hold green objects to the left or right to pull the paddle.';
 }
 
 async function startCamera() {
@@ -506,7 +506,7 @@ async function startCamera() {
     await webcam.play();
 
     ensureAudioContext();
-    statusMessage.textContent = 'Hold yellow objects to the left or right to pull the paddle.';
+    statusMessage.textContent = 'Hold green objects to the left or right to pull the paddle.';
     startButton.textContent = 'Camera live';
     startButton.disabled = true;
     pauseButton.disabled = false;
@@ -534,7 +534,7 @@ function startAudiencePlaceholder() {
   }
 
   ensureAudioContext();
-  statusMessage.textContent = 'Using audience placeholder image. Hold yellow blocks to the left or right to steer the paddle.';
+  statusMessage.textContent = 'Using audience placeholder image. Hold green blocks to the left or right to steer the paddle.';
   startButton.textContent = 'Start webcam';
   startButton.disabled = false;
   pauseButton.disabled = false;
