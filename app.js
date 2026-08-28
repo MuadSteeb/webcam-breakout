@@ -95,8 +95,10 @@ function createBricks() {
 function makeCrowdBlock(sideName) {
   const margin = 18;
   const size = 7;
-  const minX = sideName === 'left' ? margin : game.width / 2 + margin;
-  const maxX = sideName === 'left' ? (game.width / 2) - margin : game.width - margin - size;
+  const centerGap = game.width * 0.05;
+  const halfWidth = game.width / 2;
+  const minX = sideName === 'left' ? margin : halfWidth + centerGap / 2;
+  const maxX = sideName === 'left' ? (halfWidth - centerGap / 2) - margin : game.width - margin - size;
   const minY = game.height * 0.2;
   const maxY = game.height * 0.9 - size;
 
@@ -143,8 +145,9 @@ function syncCrowd(sideName) {
   for (const block of side.blocks) {
     if (Math.random() < 0.08) {
       const sideHalf = game.width / 2;
-      const minX = sideName === 'left' ? 18 : sideHalf + 18;
-      const maxX = sideName === 'left' ? sideHalf - 18 : game.width - 18;
+      const centerGap = game.width * 0.05;
+      const minX = sideName === 'left' ? 18 : sideHalf + centerGap / 2;
+      const maxX = sideName === 'left' ? sideHalf - centerGap / 2 - 18 : game.width - 18;
       const minY = game.height * 0.2;
       const maxY = game.height * 0.9 - block.size;
       block.x = clamp(block.x + (Math.random() - 0.5) * 18, minX, maxX - block.size);
