@@ -116,7 +116,7 @@ h1 {
   background: var(--panel);
   border: 1px solid var(--panel-border);
   border-radius: 12px;
-  box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.02), 0 18px 32px rgba(1, 4, 9, 0.4);
+  box-shadow: 0 0 0 1px rgba(240, 246, 252, 0.02), 0 8px 20px rgba(1, 4, 9, 0.28);
   overflow: hidden;
   position: relative;
   padding: 18px;
@@ -146,30 +146,29 @@ h1 {
   position: absolute;
   left: 0;
   right: 0;
-  top: 24px;
+  top: 18px;
   display: flex;
   justify-content: center;
-  gap: 28px;
   pointer-events: none;
 }
 
 .score-box {
-  min-width: 120px;
-  background: rgba(13, 17, 23, 0.8);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
-  padding: 0.55rem 0.9rem;
+  min-width: 140px;
+  background: rgba(13, 17, 23, 0.76);
+  border: 1px solid rgba(240, 246, 252, 0.08);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
   text-align: center;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .single-score {
-  min-width: 180px;
+  min-width: 160px;
 }
 
 .score-box span {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -177,7 +176,7 @@ h1 {
 
 .score-box strong {
   display: block;
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
   letter-spacing: -0.04em;
   font-weight: 700;
 }
