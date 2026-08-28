@@ -27,10 +27,10 @@ const game = {
   paddleWidth: 140,
   paddleHeight: 18,
   ballSize: 12,
-  brickRows: 5,
-  brickCols: 20,
-  brickWidth: 30,
-  brickHeight: 30,
+  brickRows: 4,
+  brickCols: 12,
+  brickWidth: 56,
+  brickHeight: 32,
   brickGap: 8,
   score: 0,
   timeScale: 0.5,
@@ -318,7 +318,7 @@ function drawAsciiPixel(x, y, size, color) {
 }
 
 function drawBrick(brick) {
-  const shades = ['#0d2d1d', '#173f2b', '#2f7a44', '#42a55a', '#7ae496'];
+  const shades = ['#20112d', '#3a1d5a', '#5a2e8c', '#7b4cc9', '#b392ff'];
   const tone = shades[brick.shade % shades.length];
 
   for (let py = 0; py < brick.height; py += 4) {
@@ -330,7 +330,7 @@ function drawBrick(brick) {
     }
   }
 
-  ctx.strokeStyle = 'rgba(214, 255, 219, 0.38)';
+  ctx.strokeStyle = 'rgba(214, 205, 255, 0.38)';
   ctx.lineWidth = 1;
   ctx.strokeRect(brick.x + 0.5, brick.y + 0.5, brick.width - 1, brick.height - 1);
 }
